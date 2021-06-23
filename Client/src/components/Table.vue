@@ -20,7 +20,7 @@
         <td v-if="!item.editMode"> {{ item.name }}</td>
 
         <td v-if="item.editMode">
-          <b-form-input v-model="item.description" maxlength="500"/>
+          <b-form-textarea  v-model="item.description" maxlength="500"/>
         </td>
         <td v-if="!item.editMode"> {{ item.description }}</td>
 
@@ -62,7 +62,7 @@
           </div>
           <div>
             <label for="description">Description</label>
-            <b-form-input id="description" name="description" ref="description" maxlength="500"/>
+            <b-form-textarea  id="description" name="description" ref="description" maxlength="500"/>
           </div>
           <div>
             <label for="release">Release Year</label>
