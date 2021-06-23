@@ -20,8 +20,8 @@ namespace WebApi.Controllers
             return Context.MotionPictures.ToList();
         }
 
-        [HttpPut]
-        public MotionPicture Put(string Name, string Description, int ReleaseYear)
+        [HttpPost]
+        public MotionPicture Post(string Name, string Description, int ReleaseYear)
         {
             var record = new MotionPicture
             {
@@ -35,8 +35,8 @@ namespace WebApi.Controllers
 
         }
 
-        [HttpPost]
-        public MotionPicture Post(int id, string Name, string Description, int ReleaseYear)
+        [HttpPut]
+        public MotionPicture Put(int id, string Name, string Description, int ReleaseYear)
         {
 
             var record = Context.MotionPictures.Where(x => x.Id == id).FirstOrDefault();

@@ -25,7 +25,7 @@
         <td v-if="!item.editMode"> {{ item.description }}</td>
 
         <td v-if="item.editMode">
-          <b-form-input v-model="item.releaseYear" maxlength="4"/>
+          <b-form-input v-model="item.releaseYear" maxlength="4" @keypress="isNumber"/>
         </td>
         <td v-if="!item.editMode"> {{ item.releaseYear }} </td>
 
@@ -42,7 +42,7 @@
               cancel
             </button>
 
-            <button class="btn btn-light btn-sm" v-if="!item.editMode" :id="item.id" @click="deletePost(item.id)">
+            <button class="btn btn-light btn-sm" v-if="!item.editMode" :id="item.id" @click="deleteItem(item.id)">
               delete
             </button>
           </div>
@@ -54,7 +54,7 @@
     <div>
 
       <b-modal id="modal-1" title="Add new movie"
-               @ok="putPost($refs.name.value, $refs.description.value, $refs.release.value)">
+               @ok="create($refs.name.$el.value, $refs.description.$el.value, $refs.release.$el.value)">
         <div class="form-group">
           <div>
             <label for="name">Name</label>
@@ -66,7 +66,7 @@
           </div>
           <div>
             <label for="release">Release Year</label>
-            <b-form-input id="release" name="release" ref="release" maxlength="4"/>
+            <b-form-input id="release" name="release" ref="release" maxlength="4" @keypress="isNumber"/>
           </div>
         </div>
       </b-modal>
@@ -104,30 +104,37 @@ export default {
       // console.log('hello')
       // await tableData(data);
     },
+    isNumber: function(evt) {
+      if (isNaN(+evt.key)) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     example(itemId) {
       console.log(itemId);
     },
-    async deletePost(id) {
-      const result = await fetch(`http://localhost:5000/MotionPicture?id=${id}`, {method: 'DELETE'})
+    async deleteItem(id) {
+      const result = await fetch(`http://localhost:5000/MotionPicture?id=${id}`, {method: 'deleteItem'})
       const data = await result.json();
-      console.log('Delete Successful')
+      console.log('deleteItem Successful')
       if (data) {
         this.tableInfo = this.tableInfo.filter(x => x.id !== id);
       }
       console.log(data);
     },
-    async putPost(name, description, releaseYear) {
-      const result = await fetch(`http://localhost:5000/MotionPicture?&name=${name}&description=${description}&releaseYear=${releaseYear}`, {method: 'PUT'})
+    async create(name, description, releaseYear) {
+      const result = await fetch(`http://localhost:5000/MotionPicture?&name=${name}&description=${description}&releaseYear=${releaseYear}`, {method: 'POST'})
       const data = await result.json();
       console.log('Posted Successful')
       console.log(data);
       this.tableInfo.push(data);
-      // console.log(name)
-      // console.log(description)
-      // console.log(releaseYear)
+      console.log(name)
+      console.log(description)
+      console.log(releaseYear)
     },
-    async updatePost(id, name, description, releaseYear) {
-      const result = await fetch(`http://localhost:5000/MotionPicture?id=${id}&name=${name}&description=${description}&releaseYear=${releaseYear}`, {method: 'POST'})
+    async update(id, name, description, releaseYear) {
+      const result = await fetch(`http://localhost:5000/MotionPicture?id=${id}&name=${name}&description=${description}&releaseYear=${releaseYear}`, {method: 'PUT'})
       const data = await result.json();
       console.log('Updated Successful')
       console.log(data);
@@ -139,7 +146,7 @@ export default {
     },
     async saveEdit(id) {
       const record = this.tableInfo.find(x => x.id === id);
-      await this.updatePost(record.id, record.name, record.description, record.releaseYear)
+      await this.update(record.id, record.name, record.description, record.releaseYear)
       record.editMode = false;
     },
     cancelEdit(id) {
