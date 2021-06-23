@@ -31,19 +31,19 @@
 
         <td>
           <div class="btn-group">
-            <button class="btn btn-dark btn-sm" v-if="item.editMode" @click="saveEdit(item.id)">
-              save
+            <button class="btn btn-sm" v-if="item.editMode" @click="saveEdit(item.id)">
+              <b-icon-arrow-down-square/>
             </button>
-            <button class="btn btn-dark btn-sm" v-if="!item.editMode" @click="toggleEdit(item.id)">
-              edit
-            </button>
-
-            <button class="btn btn-light btn-sm" v-if="item.editMode" @click="cancelEdit(item.id)">
-              cancel
+            <button class="btn btn-sm" v-if="!item.editMode" @click="toggleEdit(item.id)">
+              <b-icon-pencil-square />
             </button>
 
-            <button class="btn btn-light btn-sm" v-if="!item.editMode" :id="item.id" @click="deleteItem(item.id)">
-              delete
+            <button class="btn btn-sm" v-if="item.editMode" @click="cancelEdit(item.id)">
+              <b-icon-x-circle/>
+            </button>
+
+            <button class="btn btn-sm" v-if="!item.editMode" :id="item.id" @click="deleteItem(item.id)">
+              <b-icon-trash2/>
             </button>
           </div>
         </td>
