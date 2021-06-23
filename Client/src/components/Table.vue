@@ -8,7 +8,7 @@
       <tr>
         <th> Name</th>
         <th> Description</th>
-        <th> Release</th>
+        <th> Release Year</th>
         <th> Actions</th>
       </tr>
       </thead>
@@ -115,7 +115,7 @@ export default {
       console.log(itemId);
     },
     async deleteItem(id) {
-      const result = await fetch(`http://localhost:5000/MotionPicture?id=${id}`, {method: 'deleteItem'})
+      const result = await fetch(`http://localhost:5000/MotionPicture?id=${id}`, {method: 'DELETE'})
       const data = await result.json();
       console.log('deleteItem Successful')
       if (data) {
@@ -129,9 +129,9 @@ export default {
       console.log('Posted Successful')
       console.log(data);
       this.tableInfo.push(data);
-      console.log(name)
-      console.log(description)
-      console.log(releaseYear)
+      // console.log(name)
+      // console.log(description)
+      // console.log(releaseYear)
     },
     async update(id, name, description, releaseYear) {
       const result = await fetch(`http://localhost:5000/MotionPicture?id=${id}&name=${name}&description=${description}&releaseYear=${releaseYear}`, {method: 'PUT'})
